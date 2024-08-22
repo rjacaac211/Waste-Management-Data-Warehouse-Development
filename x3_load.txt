@@ -1,0 +1,44 @@
+CREATE TABLE DimDate (
+    Dateid INT PRIMARY KEY,
+    date DATE NOT NULL,
+    Year INT NOT NULL,
+    Quarter INT NOT NULL,
+    QuarterName VARCHAR(2) NOT NULL,
+    Month INT NOT NULL,
+    Monthname VARCHAR(255) NOT NULL,
+    Day INT NOT NULL,
+    Weekday INT NOT NULL,
+    WeekdayName VARCHAR(255) NOT NULL
+);
+
+\copy DimDate(Dateid, date, Year, Quarter, QuarterName, Month, Monthname, Day, Weekday, WeekdayName) FROM 'DimDate.csv' DELIMITER ',' CSV HEADER;
+
+
+CREATE TABLE DimTruck (
+    Truckid INT PRIMARY KEY,
+    TruckType VARCHAR(255) NOT NULL
+);
+
+\copy DimTruck(Truckid, TruckType) FROM 'DimTruck.csv' DELIMITER ',' CSV HEADER;
+
+
+CREATE TABLE DimStation (
+    Stationid INT PRIMARY KEY,
+    City VARCHAR(255) NOT NULL
+);
+
+\copy DimStation(Stationid, City) FROM 'DimStation.csv' DELIMITER ',' CSV HEADER;
+
+
+CREATE TABLE FactTrips (
+    Tripid INT PRIMARY KEY,
+    Dateid INT NOT NULL,
+    Stationid INT NOT NULL,
+    Truckid INT NOT NULL,
+    Wastecollected DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (Dateid) REFERENCES DimDate(Dateid),
+    FOREIGN KEY (Stationid) REFERENCES DimStation(Stationid),
+    FOREIGN KEY (Truckid) REFERENCES DimTruck(Truckid)
+);
+
+\copy FactTrips(Tripid, Dateid, Stationid, Truckid, Wastecollected) FROM 'FactTrips.csv' DELIMITER ',' CSV HEADER;

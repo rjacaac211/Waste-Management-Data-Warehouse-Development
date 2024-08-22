@@ -1,0 +1,27 @@
+CREATE TABLE MyDimDate (
+    dateid INT PRIMARY KEY,
+    year INT,
+    month INT,
+    monthname VARCHAR(20),
+    day INT,
+    weekday INT,
+    weekdayname VARCHAR(20)
+);
+
+CREATE TABLE MyDimWaste (
+    wasteid INT PRIMARY KEY,
+    wastename VARCHAR(255)
+);
+
+CREATE TABLE MyDimZone (
+    zoneid INT PRIMARY KEY,
+    zonename VARCHAR(255)
+);
+
+CREATE TABLE MyFactTrips (
+    tripid INT PRIMARY KEY,
+    wasteid INT,
+    wastecollected DECIMAL (10, 2),
+    zoneid INT,
+    dateid INT
+);
